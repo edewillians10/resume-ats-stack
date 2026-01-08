@@ -1,0 +1,36 @@
+- name: Create ATS analyzer directory
+  file:
+    path: /opt/ats-analyzer
+    state: directory
+
+- name: Copy ATS analyzer app
+  copy:
+    src: app.py
+    dest: /opt/ats-analyzer/app.py
+
+- name: Create ATS analyzer Dockerfile
+  copy:
+    dest: /opt/ats-analyzer/Dockerfile
+    content: |
+      FROM python:3.12-slim
+      WORKDIR /app
+      COPY app.py /app/app.py
+      RUN pip install flask scikit-learn
+      CMD ["python", "app.py"]
+
+- name: Build ATS analyzer image
+  community.docker.docker_image:
+    name: ats-analyzer
+    tag: latest
+    source: build
+    build:
+      path: /opt/ats-analyzer
+
+- name: Run ATS analyzer container
+  community.docker.docker_container:
+    name: ats-analyzer
+    image: ats-analyzer:latest
+    state: started
+    restart_policy: always
+    published_ports:
+      - "5000:5000"

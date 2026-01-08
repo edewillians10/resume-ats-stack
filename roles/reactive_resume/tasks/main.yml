@@ -1,0 +1,21 @@
+- name: Ensure Reactive Resume directory
+  file:
+    path: /opt/reactive-resume
+    state: directory
+
+- name: Deploy docker-compose file
+  copy:
+    src: docker-compose.yml
+    dest: /opt/reactive-resume/docker-compose.yml
+
+- name: Stop and remove existing Reactive Resume stack (cleanup)
+  community.docker.docker_compose_v2:
+    project_src: /opt/reactive-resume
+    state: absent
+    remove_orphans: true
+
+- name: Start Reactive Resume stack
+  community.docker.docker_compose_v2:
+    project_src: /opt/reactive-resume
+    state: present
+    pull: always

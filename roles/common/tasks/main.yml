@@ -1,0 +1,12 @@
+- name: Update apt
+  apt:
+    update_cache: yes
+
+- name: Install base packages
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - git
+    state: present

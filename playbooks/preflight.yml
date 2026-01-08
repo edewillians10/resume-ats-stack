@@ -1,0 +1,5 @@
+- name: Preflight checks for Resume ATS VM VM requirements
+  hosts: resume_vm
+  become: true
+  roles:
+    - preflight

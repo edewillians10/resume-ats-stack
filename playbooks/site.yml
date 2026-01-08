@@ -1,0 +1,8 @@
+- name: Resume & ATS Stack
+  hosts: resume_vm
+  become: true
+  roles:
+    - common
+    - ollama
+    - reactive_resume
+    - ats_analyzer

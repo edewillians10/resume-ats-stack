@@ -1,0 +1,57 @@
+#- name: Pull Ollama image
+#  community.docker.docker_container:
+#    name: ollama
+#    image: ollama/ollama:latest
+#    state: started
+#    restart_policy: always
+#    ports:
+#      - "11434:11434"
+#    volumes:
+#      - ollama:/root/.ollama
+
+- name: Create Ollama volume
+  community.docker.docker_volume:
+    name: ollama
+
+- name: Start Ollama container
+  community.docker.docker_container:
+    name: ollama
+    image: ollama/ollama:latest
+    state: started
+    restart_policy: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+
+- name: Wait for Ollama API to be available
+  uri:
+    url: http://127.0.0.1:11434/api/tags
+    status_code: 200
+  register: ollama_api
+  retries: 20
+  delay: 5
+  until: ollama_api.status == 200
+
+- name: Check if llama3 model already exists
+  command: docker exec ollama ollama list
+  register: ollama_models
+  changed_when: false
+
+- name: Pull llama3 model (only if missing)
+  command: docker exec ollama ollama pull llama3
+  when: "'llama3' not in ollama_models.stdout"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
