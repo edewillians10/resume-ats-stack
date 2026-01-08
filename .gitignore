@@ -1,0 +1,112 @@
+# =========================================
+# Resume ATS Stack - Gitignore
+# =========================================
+
+# --- Ansible ---
+*.retry
+.env
+inventory/*.ini~
+inventory/*.cfg~
+*.vault
+*.vault.yml
+*.vault.yaml
+
+# Sensitive host vars (optional)
+host_vars/
+group_vars/*vault*
+
+# SSH keys
+*.pem
+*.key
+*.pub
+.ssh/
+
+# --- Docker / Compose ---
+docker-compose.override.yml
+docker-compose.local.yml
+docker-compose.debug.yml
+*.bak
+*.swp
+
+# Docker & Build Artifacts
+tmp/
+.cache/
+dist/
+build/
+.docker/
+
+# Docker volumes (prevents checking in runtime data)
+postgres_data/
+redis_data/
+minio_data/
+data/
+volumes/
+
+# Local bucket dumps
+bucket-backup/
+minio-buckets/
+minio.tmp/
+
+# --- Logs ---
+*.log
+log/
+logs/
+*.stdout
+*.stderr
+
+# --- Backups ---
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.bak
+*.backup
+
+# --- Python (in case ATS analyzer evolves) ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# --- Node / NPM (Reactive Resume optional build) ---
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# --- IDE / Editors ---
+.vscode/
+.idea/
+*.iml
+*.suo
+*.cache
+*.project
+*.classpath
+*.settings/
+
+# --- OS generated ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Temporary ---
+*.tmp
+*.swp
+*.swn
+*.swo
+
+# --- Credentials / Tokens ---
+*.secret
+*.token
+.env.local
+.env.production
+.env.development
+.env.staging
+
+# --- Misc ---
+*.orig
+*.rej
